@@ -1,4 +1,5 @@
 import { createContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const GlobalContext = createContext(null)
 
@@ -8,6 +9,9 @@ export default function GlobalState({ children }) {
     const [loading, setLoading] = useState(false)
     const [recipeList, setRecipeList] = useState([])
     const [recipeDetails, setRecipeDetails] = useState(null)
+    const [favoritesList, setFavoritesList] = useState([])
+    const [navigate] = useNavigate()
+
     async function handleSubmit(event) {
         event.preventDefault()
          try{
@@ -18,8 +22,9 @@ export default function GlobalState({ children }) {
                 setRecipeList(data?.data?.recipes)
                 setLoading(false)
                 setSearchParam('')
+                navigate('/')
             }
-            console.log(data)
+            
          }catch(error) {
             console.log(error)
             setLoading(false)
@@ -27,9 +32,36 @@ export default function GlobalState({ children }) {
          }
     }
 
-    console.log(loading, recipeList)
+    function handleAddToFavorites(getCurrentItem) {
+       console.log(getCurrentItem)
+       let cpyFavoritesList = [...favoritesList]
+       const index = cpyFavoritesList.findIndex(item=> item.id === getCurrentItem.id)
+
+       if(index === -1) {
+        cpyFavoritesList.push(getCurrentItem)
+       }else {
+        cpyFavoritesList.splice(index)
+       }
+
+       setFavoritesList(cpyFavoritesList)
+    }
+
+    console.log(favoritesList, "favoritesList")
 
     return (
-        <GlobalContext.Provider value={{searchParam, loading, recipeList, setSearchParam, handleSubmit, recipeDetails, setRecipeDetails}}>{children}</GlobalContext.Provider>
+        <GlobalContext.Provider value={{
+            searchParam, 
+            loading, 
+            recipeList, 
+            setSearchParam, 
+            handleSubmit, 
+            recipeDetails, 
+            setRecipeDetails, 
+            setFavoritesList,
+            handleAddToFavorites,
+            favoritesList, 
+        }}>
+            {children}
+        </GlobalContext.Provider>
     )
 }
