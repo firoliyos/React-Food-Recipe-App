@@ -4,7 +4,7 @@ import { GlobalContext } from "../../context"
 
 export default function Details() {
     const {id} = useParams()
-    const {recipeDetails, setRecipeDetails} = useContext(GlobalContext)
+    const {recipeDetails, setRecipeDetails, favoritesList, handleAddToFavorites} = useContext(GlobalContext)
 
     
     useEffect(() => {
@@ -35,10 +35,13 @@ export default function Details() {
             <span className="text-sm text-cyan-700 font-medium">{recipeDetails?.recipe?.publisher}</span>
             <h3 className="font-bold text-2xl truncate text-black">{recipeDetails?.recipe?.title}</h3>
             <div>
-              <button
+              <button 
+              onClick={() => handleAddToFavorites(recipeDetails?.recipe)}
                className="p-3 px-8 rounded-lg text-sm uppercase font-medium tracking-wider mt-3 inline-block shadow-md bg-black text-white"
               >
-                 Save as favorites
+                 {
+                 favoritesList && favoritesList.length > 0 &&favoritesList.findIndex(item=> item.id === recipeDetails?.recipe?.id) !== -1 ? 'Remove from favorites' : 'Add to favorites'
+                 }
               </button>
             </div>
             <div>
