@@ -5,7 +5,7 @@ import RecipeItem from "../../components/recipe-item";
 export default function Home() {
   const { recipeList, loading } = useContext(GlobalContext);
 
-  if (loading) return <div>Loading...Please wait!</div>;
+  if (loading) return <div>Loading...</div>;
 
   return (
     <div className="py-8 container mx-auto flex flex-wrap justify-center gap-10">
