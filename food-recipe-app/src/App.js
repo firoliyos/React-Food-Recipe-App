@@ -4,9 +4,6 @@ import {Routes,Route} from 'react-router-dom'
 import Home from './pages/home';
 import Favorites from './pages/favorites';
 import Details from './pages/details';
-// import Home from './pages/home'
-// import Favorites from './pages/favorites'
-// import Details from './pages/details'
 function App() {
   return (
     <div>
